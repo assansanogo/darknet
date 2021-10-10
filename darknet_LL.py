@@ -7,6 +7,8 @@ import time
 import cv2
 import numpy as np
 import darknet
+import requests
+import json
 
 #BATCH_SIZE = os.environ['BATCH_SIZE']
 #DATA_FILE = os.environ['DATA_FILE']
