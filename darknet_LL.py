@@ -24,6 +24,21 @@ CONFIG_FILE = "./data/configuration/yolov4-csp_test.cfg"
 THRESH = 0.2
 
 
+def download_url(url):
+    '''
+    utility funcction which downloads pdf to local environment
+    '''
+    # data is going to be read as stream
+    chunk_size=2000
+    r = requests.get(url, stream=True)
+    # the pdf filename is extracted from the presigned url
+    file_name = [el for el in url.split("/") if ".pdf" in el][0]
+    # open a file to dump the stream in
+    with open(f'/tmp/{file_name}', 'wb') as fd:
+        for chunk in r.iter_content(chunk_size):
+            fd.write(chunk)
+    return f'/tmp/{file_name}'
+
 def parser():
     parser = argparse.ArgumentParser(description="YOLO Object Detection")
     parser.add_argument("--input", type=str, default="",
