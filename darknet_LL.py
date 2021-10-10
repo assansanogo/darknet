@@ -210,7 +210,6 @@ def detect_LL(image_name=None):
     detect image path
     '''
     
-    image_name="/usr/ubuntu/home/darknet/qualify_test/MR+Adefisoye+Hezekiah+STATEMENT_3.png"
     config_file = CONFIG_FILE
     data_file = DATA_FILE
     weights = DATA_WEIGHTS
@@ -233,6 +232,33 @@ def detect_LL(image_name=None):
     )
 
     return(detections)
+
+
+def yolo_liberta_leasing_convert_handler(event, context):
+    '''
+    formatting of the lambda handler to be compatible with by AWS
+    '''
+    # information extracted from the event payload
+    event = json.loads(base64.b64decode(event['body']).decode('utf-8'))
+    input_file_url = event["url"]
+    output_format = event["format"]
+    
+    # download file locally and keep the filename
+    f_name = download_url(input_file_url)
+    
+    try:
+        # when no error :process and returns json
+        processed_dataframe = detect_LL(f_name)
+        return {'headers': {'Content-Type':'application/json'}, 
+                'statusCode': 200,
+                'body': json.dumps(processed_dataframe)}
+       
+    except Exception as e :
+        # in case of errors return a json with the error description
+        return {'headers': {'Content-Type':'application/json'}, 
+                'statusCode': 400,
+                'body': json.dumps(str(e))}
+                
 
 
 def main():
@@ -278,6 +304,6 @@ if __name__ == "__main__":
     # unconmment next line for an example of batch processing
     # batch_detection_example()
 
-    image_name = "/usr/ubuntu/home/darknet/qualify_test/MR+Adefisoye+Hezekiah+STATEMENT_3.png"
+    #image_name = "/usr/ubuntu/home/darknet/qualify_test/MR+Adefisoye+Hezekiah+STATEMENT_3.png"
     preds = detect_LL(image_name)
     print(preds)
