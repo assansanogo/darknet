@@ -1,6 +1,6 @@
 #Download base image (lambda container)
 FROM amazon/aws-lambda-python:3.9
-RUN yum update && yum install curl wget sudo 
+RUN yum update && yum install curl wget sudo -y
 RUN pip3 install tqdm pandas opencv-python
 
 
