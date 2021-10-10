@@ -9,6 +9,7 @@ import numpy as np
 import darknet
 import requests
 import json
+import base64
 
 #BATCH_SIZE = os.environ['BATCH_SIZE']
 #DATA_FILE = os.environ['DATA_FILE']
