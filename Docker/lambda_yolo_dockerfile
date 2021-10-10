@@ -1,0 +1,31 @@
+#Download base image ubuntu 16.04
+FROM amazon/aws-lambda-python:3.9
+RUN yum update && yum install curl wget sudo 
+RUN pip3 install tqdm pandas opencv-python
+
+
+RUN git clone https://github.com/assansanogo/darknet.git
+RUN cd darknet && make -j8
+RUN cd darknet/data \
+&&  wget https://liberta-leasing-ml.s3.eu-west-1.amazonaws.com/data/obj.data \
+&&  wget https://liberta-leasing-ml.s3.eu-west-1.amazonaws.com/data/obj.names \
+&&  wget https://liberta-leasing-ml.s3.eu-west-1.amazonaws.com/data/yolov4-csp_best.weights \
+&&  wget https://liberta-leasing-ml.s3.eu-west-1.amazonaws.com/data/configuration/yolov4-csp_test.cfg
+
+
+ENV BATCH_SIZE = 1
+ENV DATA_FILE = darknet/data/obj.data
+ENV OBJ_NAMES = darknet/data/obj.OBJ_NAMES
+ENV MODEL_WEIGHTS = darknet/data/yolov4-csp_best.weights
+ENV MODEL_CFG = darknet/data/yolov4-csp_test.cfg
+
+WORKDIR /usr/ubuntu/home/darknet
+RUN  mkdir qualify_test && cd qualify_test && wget https://liberta-leasing-ml.s3.eu-west-1.amazonaws.com/data/qualify_data/MR+Adefisoye+Hezekiah+STATEMENT_4.png
+
+RUN git clone https://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@github.com/assansanogo/b_s_processor.git
+
+RUN cp /b_s_processor/lambda_functions/detector.py "${LAMBDA_TASK_ROOT}"
+WORKDIR /myapp/lambda_functions
+
+CMD ["/bin/bash"]
+#CMD ["clean_and_classify.liberta_leasing_classify_handler"]
