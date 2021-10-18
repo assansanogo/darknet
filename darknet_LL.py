@@ -277,7 +277,17 @@ def yolo_liberta_leasing_convert_handler(event, context):
     
     try:
         # when no error :process and returns json
-        processed_dataframe = detect_LL(f_name)
+        d_classe,processed_dataframe, d_preds = detect_LL(f_name)
+        res = {
+            'class': d_classe,
+            'confidence': d_confidence,
+            'prediction': {
+                'x0': d_preds[0],
+                'y0': d_preds[1],
+                'x1': d_preds[2],
+                'y1': d_preds[3]
+            }
+        }
         
         return {'headers': {'Content-Type':'application/json'}, 
                 'statusCode': 200,
