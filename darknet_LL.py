@@ -249,6 +249,8 @@ def detect_LL(image_name=None):
     thresh
     )
     # teh return object is a list of predicted class, confidence, (x,y,w,h)
+    print("check inside the function")
+    print(len(detections))
     d_classe, d_confidence, d_preds = detections
     x0 = d_preds[0] - d_preds[3]/2
     y0 = d_preds[1] - d_preds[2]/2
@@ -279,7 +281,7 @@ def yolo_liberta_leasing_convert_handler(event, context):
         # when no error :process and returns json
         print(len(detect_LL(f_name)))
         
-        d_classe, processed_dataframe, d_preds = detect_LL(f_name)[0]
+        d_classe, processed_dataframe, d_preds = detect_LL(f_name)
         res = {
             'class': d_classe,
             'confidence': d_confidence,
