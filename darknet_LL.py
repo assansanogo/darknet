@@ -248,8 +248,16 @@ def detect_LL(image_name=None):
     class_colors, 
     thresh
     )
-
-    return(detections)
+    # teh return object is a list of predicted class, confidence, (x,y,w,h)
+    d_classe, d_confidence, d_preds = detections
+    x0 = d_preds[0] - d_preds[3]/2
+    y0 = d_preds[1] - d_preds[2]/2
+    x1 = d_preds[0] + d_preds[3]/2
+    y1 = d_preds[1] + d_preds[2]/2
+    
+    d_preds = [x0, y0, x1, y1]  # xmin,ymin, xmax,ymax
+    
+    return(d_classe, d_confidence, d_preds)
 
 
 def yolo_liberta_leasing_convert_handler(event, context):
@@ -270,6 +278,7 @@ def yolo_liberta_leasing_convert_handler(event, context):
     try:
         # when no error :process and returns json
         processed_dataframe = detect_LL(f_name)
+        
         return {'headers': {'Content-Type':'application/json'}, 
                 'statusCode': 200,
                 'body': json.dumps(processed_dataframe)}
