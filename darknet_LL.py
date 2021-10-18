@@ -277,7 +277,9 @@ def yolo_liberta_leasing_convert_handler(event, context):
     
     try:
         # when no error :process and returns json
-        d_classe,processed_dataframe, d_preds = detect_LL(f_name)
+        print(len(detect_LL(f_name)))
+        
+        d_classe, processed_dataframe, d_preds = detect_LL(f_name)[0]
         res = {
             'class': d_classe,
             'confidence': d_confidence,
