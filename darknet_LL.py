@@ -258,7 +258,9 @@ def yolo_liberta_leasing_convert_handler(event, context):
     '''
     # information extracted from the event payload
     #event = json.loads(base64.b64decode(event['body']).decode('utf-8'))
-    event = json.loads(event["body"])
+    if "body" in list(event.keys()):
+        event = json.loads(event["body"])
+        
     input_file_url = event["url"]
     output_format = event["format"]
     
