@@ -295,7 +295,7 @@ def yolo_liberta_leasing_convert_handler(event, context):
         
         return {'headers': {'Content-Type':'application/json'}, 
                 'statusCode': 200,
-                'body': json.dumps(processed_dataframe)}
+                'body': json.dumps(res)}
        
     except Exception as e :
         # in case of errors return a json with the error description
