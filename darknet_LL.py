@@ -251,7 +251,7 @@ def detect_LL(image_name=None):
     # teh return object is a list of predicted class, confidence, (x,y,w,h)
     print("check inside the function")
     print(len(detections))
-    d_classe, d_confidence, d_preds = detections
+    d_classe, d_confidence, d_preds = detections[0]
     x0 = d_preds[0] - d_preds[3]/2
     y0 = d_preds[1] - d_preds[2]/2
     x1 = d_preds[0] + d_preds[3]/2
